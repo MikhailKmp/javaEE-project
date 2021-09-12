@@ -8,14 +8,14 @@ public class TaskList {
     private TypeTaskList type;
     private LocalDateTime dateCreation;
     private LocalDateTime deadline;
-    private int userId;
+    private User user;
 
-    public TaskList(int id, TypeTaskList type, LocalDateTime dateCreation, LocalDateTime deadline, int userId) {
+    public TaskList(int id, TypeTaskList type, LocalDateTime dateCreation, LocalDateTime deadline, User user) {
         this.id = id;
         this.type = type;
         this.dateCreation = dateCreation;
         this.deadline = deadline;
-        this.userId = userId;
+        this.user = user;
     }
 
     public TaskList() {
@@ -54,12 +54,12 @@ public class TaskList {
         this.deadline = deadline;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TaskList {
                 ", type=" + type +
                 ", dateCreation=" + dateCreation +
                 ", deadline=" + deadline +
-                ", userId=" + userId +
+                ", user=" + user +
                 '}';
     }
 }
