@@ -54,8 +54,15 @@ public class TaskListDao implements Dao<Integer, TaskList> {
 
     @Override
     public Optional<TaskList> findById(Integer id) {
-        try (Connection connection = ConnectionManager.open();
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
+        try (Connection connection = ConnectionManager.open()) {
+            return findById(id, connection);
+        } catch (SQLException throwables) {
+            throw new DaoException(throwables);
+        }
+    }
+
+    public Optional<TaskList> findById(Integer id, Connection connection) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
