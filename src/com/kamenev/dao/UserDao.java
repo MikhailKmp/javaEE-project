@@ -63,8 +63,15 @@ public class UserDao implements Dao<Integer, User> {
 
     @Override
     public Optional<User> findById(Integer id) {
-        try (Connection connection = ConnectionManager.open();
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
+        try (Connection connection = ConnectionManager.open()) {
+            return findById(id, connection);
+        } catch (SQLException throwables) {
+            throw new DaoException(throwables);
+        }
+    }
+
+    public Optional<User> findById(Integer id, Connection connection) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
