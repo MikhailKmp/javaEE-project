@@ -1,5 +1,6 @@
 package com.kamenev.dao;
 
+import com.kamenev.dto.TaskFilter;
 import com.kamenev.entity.Status;
 import com.kamenev.entity.Task;
 import com.kamenev.exception.DaoException;
@@ -9,6 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.joining;
 
 public class TaskDao implements Dao<Integer, Task> {
 
@@ -98,6 +101,44 @@ public class TaskDao implements Dao<Integer, Task> {
     public List<Task> findAll() {
         try (Connection connection = ConnectionManager.open();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Task> tasks = new ArrayList<>();
+            while (resultSet.next()) {
+                tasks.add(buildTask(resultSet));
+            }
+            return tasks;
+        } catch (SQLException throwables) {
+            throw new DaoException(throwables);
+        }
+    }
+
+    public List<Task> findAll(TaskFilter taskFilter) {
+        List<Object> parameters = new ArrayList<>();
+        List<String> whereSql = new ArrayList<>();
+        if (taskFilter.getTaskListId() != null) {
+            whereSql.add("task_list_id = ?");
+            parameters.add(taskFilter.getTaskListId());
+        }
+        if (taskFilter.getDescription() != null) {
+            whereSql.add("description LIKE ?");
+            parameters.add("%" + taskFilter.getDescription() + "%");
+        }
+        if (taskFilter.getStatus() != null) {
+            whereSql.add("status = ?");
+            parameters.add(taskFilter.getStatus());
+        }
+
+        String where = parameters.isEmpty() ? "" :
+                whereSql.stream()
+                        .collect(joining(" AND ", " WHERE ", ""));
+
+        String sql = FIND_ALL_SQL + where;
+
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (int i = 0; i < parameters.size(); i++) {
+                preparedStatement.setObject(i + 1, parameters.get(i));
+            }
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Task> tasks = new ArrayList<>();
             while (resultSet.next()) {
