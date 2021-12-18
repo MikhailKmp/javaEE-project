@@ -1,10 +1,11 @@
 package com.kamenev.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class User {
 
-    private int id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -14,7 +15,7 @@ public class User {
     private Role role;
     private Gender gender;
 
-    public User(int id, String firstName, String lastName, String email, String password, String image, LocalDateTime dateOfBirth, Role role, Gender gender) {
+    public User(Long id, String firstName, String lastName, String email, String password, String image, LocalDateTime dateOfBirth, Role role, Gender gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,11 +31,11 @@ public class User {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -100,6 +101,19 @@ public class User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

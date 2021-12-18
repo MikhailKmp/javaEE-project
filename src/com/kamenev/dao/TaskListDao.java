@@ -38,13 +38,13 @@ public class TaskListDao implements Dao<Integer, TaskList> {
             preparedStatement.setString(1, taskList.getType().toString());
             preparedStatement.setObject(2, taskList.getDateCreation());
             preparedStatement.setObject(3, taskList.getDeadline());
-            preparedStatement.setInt(4, taskList.getUser().getId());
+            preparedStatement.setLong(4, taskList.getUser().getId());
 
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                taskList.setId(resultSet.getInt("id"));
+                taskList.setId(resultSet.getLong("id"));
             }
             return taskList;
         } catch (SQLException throwables) {
@@ -84,8 +84,8 @@ public class TaskListDao implements Dao<Integer, TaskList> {
             preparedStatement.setString(1, taskList.getType().toString());
             preparedStatement.setObject(2, taskList.getDateCreation());
             preparedStatement.setObject(3, taskList.getDeadline());
-            preparedStatement.setInt(4, taskList.getUser().getId());
-            preparedStatement.setInt(5, taskList.getId());
+            preparedStatement.setLong(4, taskList.getUser().getId());
+            preparedStatement.setLong(5, taskList.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -128,7 +128,7 @@ public class TaskListDao implements Dao<Integer, TaskList> {
         Timestamp dateCreation = resultSet.getTimestamp("date_creation");
         Timestamp deadline = resultSet.getTimestamp("deadline");
         return new TaskList(
-                resultSet.getInt("id"),
+                resultSet.getLong("id"),
                 TypeTaskList.valueOf(resultSet.getString("type")),
                 dateCreation != null ? dateCreation.toLocalDateTime() : null,
                 deadline != null ? deadline.toLocalDateTime() : null,

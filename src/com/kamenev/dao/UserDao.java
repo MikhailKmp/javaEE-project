@@ -53,7 +53,7 @@ public class UserDao implements Dao<Integer, User> {
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                user.setId(generatedKeys.getInt("id"));
+                user.setId(generatedKeys.getLong("id"));
             }
             return user;
         } catch (SQLException throwables) {
@@ -98,7 +98,7 @@ public class UserDao implements Dao<Integer, User> {
             preparedStatement.setString(6, user.getEmail());
             preparedStatement.setString(7, user.getGender().toString());
             preparedStatement.setObject(8, user.getDateOfBirth());
-            preparedStatement.setInt(9, user.getId());
+            preparedStatement.setLong(9, user.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -141,7 +141,7 @@ public class UserDao implements Dao<Integer, User> {
     private User buildUser(ResultSet resultSet) throws SQLException {
         Timestamp dateOfBirth = resultSet.getTimestamp("date_of_birth");
         return new User(
-                resultSet.getInt("id"),
+                resultSet.getLong("id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
                 resultSet.getString("email"),

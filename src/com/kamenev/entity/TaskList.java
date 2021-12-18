@@ -1,16 +1,17 @@
 package com.kamenev.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class TaskList {
 
-    private int id;
+    private Long id;
     private TypeTaskList type;
     private LocalDateTime dateCreation;
     private LocalDateTime deadline;
     private User user;
 
-    public TaskList(int id, TypeTaskList type, LocalDateTime dateCreation, LocalDateTime deadline, User user) {
+    public TaskList(Long id, TypeTaskList type, LocalDateTime dateCreation, LocalDateTime deadline, User user) {
         this.id = id;
         this.type = type;
         this.dateCreation = dateCreation;
@@ -22,11 +23,11 @@ public class TaskList {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,6 +61,19 @@ public class TaskList {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskList taskList = (TaskList) o;
+        return Objects.equals(id, taskList.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

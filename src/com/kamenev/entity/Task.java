@@ -1,13 +1,15 @@
 package com.kamenev.entity;
 
+import java.util.Objects;
+
 public class Task {
 
-    private int id;
+    private Long id;
     private TaskList taskList;
     private String description;
     private Status status;
 
-    public Task(int id, TaskList taskList, String description, Status status) {
+    public Task(Long id, TaskList taskList, String description, Status status) {
         this.id = id;
         this.taskList = taskList;
         this.description = description;
@@ -18,11 +20,11 @@ public class Task {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -48,6 +50,19 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

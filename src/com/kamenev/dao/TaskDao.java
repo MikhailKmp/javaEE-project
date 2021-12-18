@@ -33,7 +33,7 @@ public class TaskDao implements Dao<Integer, Task> {
     public Task save(Task task) {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setInt(1, task.getTaskList().getId());
+            preparedStatement.setLong(1, task.getTaskList().getId());
             preparedStatement.setString(2, task.getDescription());
             preparedStatement.setString(3, task.getStatus().toString());
 
@@ -41,7 +41,7 @@ public class TaskDao implements Dao<Integer, Task> {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                task.setId(resultSet.getInt("id"));
+                task.setId(resultSet.getLong("id"));
             }
             return task;
         } catch (SQLException throwables) {
@@ -71,10 +71,10 @@ public class TaskDao implements Dao<Integer, Task> {
     public void update(Task task) {
         try (Connection connection = ConnectionManager.open();
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
-            preparedStatement.setInt(1, task.getTaskList().getId());
+            preparedStatement.setLong(1, task.getTaskList().getId());
             preparedStatement.setString(2, task.getDescription());
             preparedStatement.setString(3, task.getStatus().toString());
-            preparedStatement.setInt(4, task.getId());
+            preparedStatement.setLong(4, task.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -115,7 +115,7 @@ public class TaskDao implements Dao<Integer, Task> {
 
     private Task buildTask(ResultSet resultSet) throws SQLException {
         return new Task(
-                resultSet.getInt("id"),
+                resultSet.getLong("id"),
                 taskListDao.findById(resultSet.getInt("task_list_id"),
                         resultSet.getStatement().getConnection()).orElse(null),
                 resultSet.getString("description"),
