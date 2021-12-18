@@ -1,23 +1,24 @@
-<%@ page import="com.kamenev.dto.TaskListDto" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Списки задач</title>
 </head>
 <body>
-    <h2>Списки задач:</h2>
-    <ul>
-        <%
-            List<TaskListDto> taskListDtoList = (List<TaskListDto>) request.getAttribute("taskListDtoList");
-            for (TaskListDto dto : taskListDtoList) {
-                out.write(String.format("Тип списка задач: %s. Дата создания: %s. Дата дедлайна: %s. Количество задач: %d",
-                        dto.getType(),
-                        dto.getDateCreation().toString(),
-                        dto.getDeadline().toString(),
-                        dto.getNumberOfTasks()));
-            }
-        %>
-    </ul>
+    <c:if test="${not empty requestScope.taskListDtoList}">
+        <h1>Списки задач:</h1>
+        <ul>
+            <c:forEach var="taskList" items="${requestScope.taskListDtoList}">
+
+                <li>
+                    <a href="${pageContext.request.contextPath}/tasks?taskListId=${taskList.id}">
+                        Тип списка задач: ${taskList.type}. Дата создания: ${taskList.dateCreation}. Дата дедлайна: ${taskList.deadline}. Количество задач: ${taskList.numberOfTasks}.
+                    </a>
+                </li>
+
+            </c:forEach>
+        </ul>
+    </c:if>
 </body>
 </html>

@@ -21,7 +21,8 @@ public class TaskListService {
 
     public List<TaskListDto> findAll() {
         return taskListDao.findAll().stream()
-                .map(taskListMapper::entityToDto).collect(toList());
+                .map(taskListMapper::entityToDto)
+                .collect(toList());
     }
 
     public static TaskListService getInstance() {
