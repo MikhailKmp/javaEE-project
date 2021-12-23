@@ -6,13 +6,13 @@ public enum Status {
     IN_WORK("В работе"),
     DO("Сделать");
 
-    private String name;
+    private String description;
 
-    private Status(String name) {
-        this.name = name;
+    private Status(String description) {
+        this.description = description;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 }

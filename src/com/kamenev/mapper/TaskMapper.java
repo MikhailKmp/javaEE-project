@@ -13,7 +13,7 @@ public class TaskMapper implements Mapper<Task, TaskDto> {
 
     @Override
     public TaskDto entityToDto(Task task) {
-        return new TaskDto(task.getId(), task.getDescription(), task.getStatus().getName());
+        return new TaskDto(task.getId(), task.getDescription(), task.getStatus().getDescription());
     }
 
     public static TaskMapper getInstance() {
