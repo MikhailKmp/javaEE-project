@@ -10,17 +10,17 @@
 <form action="${pageContext.request.contextPath}/tasks?taskListId=${requestScope.taskListId}" method="post" enctype="application/x-www-form-urlencoded">
 
     <label for="description">Описание задачи:
-        <input type="text" name="description" id="description" value="${requestScope.description}">
+        <input type="text" name="description" id="description" value="${requestScope.taskFilterDto.description}">
     </label>
 
     <label for="status">Статус задачи:
         <select name="status" id="status">
-            <c:if test="${not empty requestScope.status}">
-                <option value="${requestScope.status}">${requestScope.status}</option>
+            <c:if test="${not empty requestScope.taskFilterDto.status}">
+                <option value="${requestScope.taskFilterDto.status}">${requestScope.taskFilterDto.status}</option>
             </c:if>
             <option value=""></option>
             <c:forEach var="status" items="${applicationScope.statuses}">
-                <c:if test="${status ne requestScope.status}">
+                <c:if test="${status ne requestScope.taskFilterDto.status}">
                     <option value="${status}">${status}</option>
                 </c:if>
             </c:forEach>

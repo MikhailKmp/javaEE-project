@@ -2,6 +2,7 @@ package com.kamenev.servlet;
 
 import com.kamenev.dto.TaskDto;
 import com.kamenev.dto.TaskFilter;
+import com.kamenev.dto.TaskFilterDto;
 import com.kamenev.entity.Status;
 import com.kamenev.service.TaskService;
 import com.kamenev.util.EnumUtil;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,11 +45,11 @@ public class TaskServlet extends HttpServlet {
 
         TaskFilter taskFilter = new TaskFilter(taskListId, description, statusName);
         List<TaskDto> taskDtoList = taskService.findAll(taskFilter);
+        TaskFilterDto taskFilterDto = new TaskFilterDto(description, statusDescription);
 
         req.setAttribute("taskListId", taskListId);
         req.setAttribute("taskDtoList", taskDtoList);
-        req.setAttribute("description", description);
-        req.setAttribute("status", statusDescription);
+        req.setAttribute("taskFilterDto", taskFilterDto);
         req.getRequestDispatcher(JspHelper.getPath("tasks")).forward(req, resp);
     }
 }
