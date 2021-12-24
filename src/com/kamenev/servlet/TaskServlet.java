@@ -15,11 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 @WebServlet("/tasks")
 public class TaskServlet extends HttpServlet {
@@ -33,10 +30,8 @@ public class TaskServlet extends HttpServlet {
 
         Long taskListId = ParseUtil.parseLong(req.getParameter("taskListId"));
         List<TaskDto> taskDtoList = taskService.findAllByTaskListId(taskListId);
-        List<String> statuses = Arrays.stream(Status.values()).map(Status::getDescription).collect(toList());
 
         req.setAttribute("taskListId", taskListId);
-        req.setAttribute("statuses", statuses);
         req.setAttribute("taskDtoList", taskDtoList);
         req.getRequestDispatcher(JspHelper.getPath("tasks")).forward(req, resp);
     }
@@ -56,10 +51,8 @@ public class TaskServlet extends HttpServlet {
 
         TaskFilter taskFilter = new TaskFilter(taskListId, description, statusName);
         List<TaskDto> taskDtoList = taskService.findAll(taskFilter);
-        List<String> statuses = Arrays.stream(Status.values()).map(Status::getDescription).collect(toList());
 
         req.setAttribute("taskListId", taskListId);
-        req.setAttribute("statuses", statuses);
         req.setAttribute("taskDtoList", taskDtoList);
         req.setAttribute("description", description);
         req.setAttribute("status", statusDescription);

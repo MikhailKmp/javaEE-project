@@ -19,7 +19,7 @@
                 <option value="${requestScope.status}">${requestScope.status}</option>
             </c:if>
             <option value=""></option>
-            <c:forEach var="status" items="${requestScope.statuses}">
+            <c:forEach var="status" items="${applicationScope.statuses}">
                 <c:if test="${status ne requestScope.status}">
                     <option value="${status}">${status}</option>
                 </c:if>
