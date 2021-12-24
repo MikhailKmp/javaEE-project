@@ -25,9 +25,6 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
         Long taskListId = ParseUtil.parseLong(req.getParameter("taskListId"));
         List<TaskDto> taskDtoList = taskService.findAllByTaskListId(taskListId);
 
@@ -38,9 +35,6 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
         Long taskListId = ParseUtil.parseLong(req.getParameter("taskListId"));
         String description = req.getParameter("description");
         String statusParam = req.getParameter("status");
