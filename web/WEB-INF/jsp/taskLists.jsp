@@ -6,6 +6,9 @@
     <title>Списки задач</title>
 </head>
 <body>
+    <form action="${pageContext.request.contextPath}/taskLists/new" method="get">
+        <button type="submit">Создать список</button>
+    </form>
     <c:if test="${not empty requestScope.taskListDtoList}">
         <h1>Списки задач:</h1>
         <ul>

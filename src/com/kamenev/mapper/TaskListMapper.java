@@ -30,7 +30,7 @@ public class TaskListMapper implements Mapper<TaskList, TaskListDto> {
         TaskFilter taskFilter = new TaskFilter(taskList.getId(), null, null);
         List<Task> tasks = taskDao.findAll(taskFilter);
 
-        return new TaskListDto(taskList.getId(), taskList.getType().getName(), dateCreation, deadLine, tasks.size());
+        return new TaskListDto(taskList.getId(), taskList.getType().getDescription(), dateCreation, deadLine, tasks.size());
     }
 
     public static TaskListMapper getInstance() {
